@@ -1,0 +1,310 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.body {
+    background-image: url(./imagenes/FMm_DTrXoAQl8KL.webp);
+    background-position:center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+h1 {
+    color:  yellow;
+    font-size: 42px;
+}
+
+h2 {
+    color: black;
+    font-size: 30px;
+}
+
+.subtitulo {
+    background-color:#f25f4cd9;
+    width: 62%;
+    border-radius: 6px;
+    text-align: center;
+    margin: 10px;
+    color: #fffffe;
+}
+
+#seleccionar-mascota {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    gap: 50px;
+    padding: 10px;
+    background-color: rgba(202, 199, 199, 0.286);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+}
+
+.tarjetas {
+    display: flex;
+    gap: 10px;
+}
+
+.tarjeta-kokemon{
+    width: 240px;
+    height: 200px;
+    background-color: #f25f4c;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.tarjeta-kokemon:hover {
+    cursor: pointer;
+    background-color: #fa4e37;
+    transform: scale(1.05);
+    transition: 0.3s ease-in-out;
+}
+
+
+
+.tarjeta-kokemon img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+#seleccionar-mascota label {
+    color: #fffffe;
+}
+
+input{
+    display: none;
+}
+
+input:checked + .tarjeta-kokemon{
+    background-color: #fa4e37;
+    transform: scale(1.05);
+}
+
+#boton-mascota {
+    width: 200px;
+    height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 30px;
+    background-color: #f4d216;
+    border-style: none;
+}
+
+#boton-mascota:hover {
+    background-color: #ffd900;
+    cursor: pointer;
+}
+
+#seleccionar-ataque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(202, 199, 199, 0.286);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 50vh;
+    width: 60%;
+}
+
+.seccion-botones-ataque {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.boton-ataque {
+    width: 20%;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#boton-fuego:hover {
+    background-color: #fa4e37;
+    cursor: pointer;
+    color: #fffffe;
+}
+
+#boton-planta:hover {
+    background-color:forestgreen;
+    cursor: pointer;
+    color: #fffffe;
+}
+
+#boton-agua:hover {
+    background-color: cornflowerblue;
+    cursor:pointer;
+    color: #fffffe;
+}
+
+#mensajes {
+    background-color: #fffffe;
+    width: 62%;
+    height: 80px;
+    border-radius: 6px;
+    margin-top: 15px;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#reiniciar {
+    margin-top: 5px;
+}
+
+#boton-reiniciar {
+    border: none;
+    padding: 5px;
+    border-radius: 6px;
+    width: 10%;
+    background-color: #f4d216;
+    font-weight: bold;
+}
+
+#boton-reiniciar:hover {
+    background-color: #ffd900;
+    cursor: pointer;
+}
+
+.tarjetas-combate {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr;
+    column-gap: 30px;
+    text-align: center;
+    width: 60%;
+    justify-items: center;
+    margin: 20px;
+}
+
+.titulo-result {
+    font-size: 32px;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-bottom: solid 2px black;
+    color: #fffffe;
+}
+
+#resultado-combate {
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    color: #0d0d0d;
+}
+
+.tarjetas-combate #resultado-combate p {
+    height: 60px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: solid 2px #0b0b0a;
+}
+
+.vida{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: forestgreen ;
+    border-radius: 6px;
+    margin: 5px;
+    font-weight: bold;
+}
+
+.estadisticas-combate {
+    background-color: #f25f4c;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fffffe;
+}
+
+.estadisticas-combate #kokemon-jugador, #kokemon-enemigo{
+    font-size: 32px;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 6px;
+}
+
+.estadisticas-combate #ataquesDelJugador p , #ataquesPc p {
+    height: 60px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: solid 2px #fffffe;
+}
+
+@media (max-width: 600px){
+
+    .body{
+        height: 100%;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .tarjetas {
+        flex-direction: column;
+    }
+
+    #seleccionar-ataque {
+        width: 100%;
+        height: 100%;
+    }
+
+    #seleccionar-ataque .titulo {
+        width: 100%;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    #seleccionar-ataque .subtitulo {
+        width: 80%;
+    }
+
+    .seccion-botones-ataque {
+        flex-direction: column;
+    }
+
+    .boton-ataque {
+        width: 60%;
+    }
+}
