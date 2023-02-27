@@ -267,6 +267,16 @@ input:checked + .tarjeta-kokemon{
     border-bottom: solid 2px #fffffe;
 }
 
+#ver-mapa {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa {
+    border: solid 2px white;
+}
+
 @media (max-width: 600px){
 
     .body{

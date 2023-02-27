@@ -15,10 +15,16 @@ let secuenciaAtqJugador = []
 let ataquesEnemigo = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
+let intervalo
+
 
 const resultadoCombate = document.getElementById('resultado-combate')
 const contenedorTarjetas = document.getElementById('contenedorTarjetas');
 const contenedorBtnAtaques = document.getElementById('contenedorBtnAtaques')
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
+let lienzo = mapa.getContext("2d")
 
 let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 let sectionReiniciar = document.getElementById('reiniciar')
@@ -49,6 +55,14 @@ class Kokemon {
         this.imagen = imagen;
         this.vidas = vidas;
         this.ataques = [];
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto = 80
+        this.mapaImg = new Image()
+        this.mapaImg.src = imagen
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -107,6 +121,8 @@ function iniciarJuego() {
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
     botonReiniciar.addEventListener('click', reiniciarJuego)
 
+    sectionVerMapa.style.display = 'none'
+
 }
 
 
@@ -114,8 +130,12 @@ function seleccionarMascotaJugador(){
 
     sectionSeleccionarMascota.style.display = 'none'
 
-    sectionSeleccionarAtaque.style.display = 'flex'
+    // sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'flex'
+    iniciarMapa()
 
+    pintarPersonaje()
+   
 
     if (inputBulbasaur.checked) {
         spanKokemonJugador.innerHTML = inputBulbasaur.id;
@@ -131,7 +151,7 @@ function seleccionarMascotaJugador(){
     }
     
     else {
-        alert('Elegi algun Kokemon pelotudo')
+        alert('Elegi algun Kokemon!')
 
     }
 
@@ -322,5 +342,74 @@ function crearMensajeFinal(resultadoFinal) {
 
     sectionReiniciar.style.display = 'block'
 }
+
+function pintarPersonaje(){
+    charmander.x = charmander.x + charmander.velocidadX
+    charmander.y = charmander.y + charmander.velocidadY
+    lienzo.clearRect(0,0,mapa.width,mapa.height)
+    lienzo.drawImage(
+        charmander.mapaImg,
+        charmander.x,
+        charmander.y,
+        charmander.alto,
+        charmander.ancho
+    )
+}
+
+function moverDerecha(){
+    charmander.velocidadX = 5
+    
+}
+
+function moverIzquierda(){
+    charmander.velocidadX = - 5
+    
+}
+
+function moverArriba(){
+    charmander.velocidadY = - 5
+    
+}
+
+function moverAbajo(){
+    charmander.velocidadY = 5
+    
+}
+
+function detenerMovimiento() {
+    charmander.velocidadX = 0
+    charmander.velocidadY = 0
+}
+
+function teclaApretada(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moverArriba()
+            break;
+        
+        case 'ArrowDown':
+            moverAbajo()
+            break;
+
+        case 'ArrowLeft':
+            moverIzquierda()
+            break;
+    
+        case 'ArrowRight':
+            moverDerecha()
+            break;
+
+        default:
+            break;
+    }
+}
+
+function iniciarMapa(){
+    intervalo = setInterval(pintarPersonaje, 50)
+
+    window.addEventListener('keydown', teclaApretada)
+    window.addEventListener('keyup', detenerMovimiento)
+}
+
 
 window.addEventListener('load', iniciarJuego)
