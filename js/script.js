@@ -9,6 +9,7 @@ let inputCharmander
 let inputBulbasaur 
 let inputSquirtle
 let mascotaJugador
+let mascotaJugadorObjeto
 let ataquesKokemon
 let botones = []
 let secuenciaAtqJugador = []
@@ -16,6 +17,8 @@ let ataquesEnemigo = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 let intervalo
+let mapaFondo = new Image()
+mapaFondo.src = './imagenes/mokemap.webp'
 
 
 const resultadoCombate = document.getElementById('resultado-combate')
@@ -23,6 +26,7 @@ const contenedorTarjetas = document.getElementById('contenedorTarjetas');
 const contenedorBtnAtaques = document.getElementById('contenedorBtnAtaques')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
+
 
 let lienzo = mapa.getContext("2d")
 
@@ -132,9 +136,7 @@ function seleccionarMascotaJugador(){
 
     // sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'flex'
-    iniciarMapa()
-
-    pintarPersonaje()
+    
    
 
     if (inputBulbasaur.checked) {
@@ -157,6 +159,9 @@ function seleccionarMascotaJugador(){
 
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
+    iniciarMapa()
+
+    pintarCanvas()
     
 }
 
@@ -343,42 +348,49 @@ function crearMensajeFinal(resultadoFinal) {
     sectionReiniciar.style.display = 'block'
 }
 
-function pintarPersonaje(){
-    charmander.x = charmander.x + charmander.velocidadX
-    charmander.y = charmander.y + charmander.velocidadY
+function pintarCanvas(){
+    mascotaJugadorObjeto.x = mascotaJugadorObjeto.x + mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y = mascotaJugadorObjeto.y + mascotaJugadorObjeto.velocidadY
     lienzo.clearRect(0,0,mapa.width,mapa.height)
     lienzo.drawImage(
-        charmander.mapaImg,
-        charmander.x,
-        charmander.y,
-        charmander.alto,
-        charmander.ancho
+        mapaFondo,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    lienzo.drawImage(
+        mascotaJugadorObjeto.mapaImg,
+        mascotaJugadorObjeto.x,
+        mascotaJugadorObjeto.y,
+        mascotaJugadorObjeto.alto,
+        mascotaJugadorObjeto.ancho
     )
 }
 
 function moverDerecha(){
-    charmander.velocidadX = 5
+    mascotaJugadorObjeto.velocidadX = 5
     
 }
 
 function moverIzquierda(){
-    charmander.velocidadX = - 5
+    mascotaJugadorObjeto.velocidadX = - 5
     
 }
 
 function moverArriba(){
-    charmander.velocidadY = - 5
+    mascotaJugadorObjeto.velocidadY = - 5
     
 }
 
 function moverAbajo(){
-    charmander.velocidadY = 5
+    mascotaJugadorObjeto.velocidadY = 5
     
 }
 
 function detenerMovimiento() {
-    charmander.velocidadX = 0
-    charmander.velocidadY = 0
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
 }
 
 function teclaApretada(event) {
@@ -405,11 +417,23 @@ function teclaApretada(event) {
 }
 
 function iniciarMapa(){
-    intervalo = setInterval(pintarPersonaje, 50)
+    mapa.width = 800
+    mapa.height = 600
+    mascotaJugadorObjeto = extraerObjetosKokemon(mascotaJugador)
+
+    intervalo = setInterval(pintarCanvas, 50)
 
     window.addEventListener('keydown', teclaApretada)
     window.addEventListener('keyup', detenerMovimiento)
 }
 
+function extraerObjetosKokemon(){
+    for (let i = 0; i < kokemones.length; i++) {
+        if (mascotaJugador === kokemones[i].nombre){
+            return kokemones[i]
+        };
+        
+    }
+}
 
 window.addEventListener('load', iniciarJuego)
