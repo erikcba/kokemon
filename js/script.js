@@ -54,13 +54,13 @@ let ataquesPc = document.getElementById('ataquesPc')
 //Creacion de kokemones con clases
 
 class Kokemon {
-    constructor(nombre, imagen, vidas){
+    constructor(nombre, imagen, vidas, x = 10, y = 10){
         this.nombre = nombre;
         this.imagen = imagen;
         this.vidas = vidas;
         this.ataques = [];
-        this.x = 20
-        this.y = 30
+        this.x = x
+        this.y = y
         this.ancho = 80
         this.alto = 80
         this.mapaImg = new Image()
@@ -68,12 +68,29 @@ class Kokemon {
         this.velocidadX = 0
         this.velocidadY = 0
     }
+
+    pintarKokemon(){
+        lienzo.drawImage(
+            this.mapaImg,
+            this.x,
+            this.y,
+            this.alto,
+            this.ancho
+        )
+    }
+
 }
 
 
 let charmander = new Kokemon('Charmander', './imagenes/charmander-removebg-preview.png', 3);
 let bulbasaur = new Kokemon('Bulbasaur', "./imagenes/png-clipart-bulbasaur-bulbasaur-pokemon.png", 3);
 let squirtle = new Kokemon('Squirtle', './imagenes/squirtle.png', 3);
+
+// kokemones enemigos
+
+let charmanderEnemigo = new Kokemon('Charmander', './imagenes/charmander-removebg-preview.png', 3 , aleatorio(0,800), aleatorio(0,550));
+let bulbasaurEnemigo = new Kokemon('Bulbasaur', "./imagenes/png-clipart-bulbasaur-bulbasaur-pokemon.png", 3,aleatorio(0,800), aleatorio(0,550));
+let squirtleEnemigo = new Kokemon('Squirtle', './imagenes/squirtle.png', 3,aleatorio(0,800), aleatorio(0,550));
 
 charmander.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
@@ -359,13 +376,16 @@ function pintarCanvas(){
         mapa.width,
         mapa.height
     )
-    lienzo.drawImage(
-        mascotaJugadorObjeto.mapaImg,
-        mascotaJugadorObjeto.x,
-        mascotaJugadorObjeto.y,
-        mascotaJugadorObjeto.alto,
-        mascotaJugadorObjeto.ancho
-    )
+    mascotaJugadorObjeto.pintarKokemon()
+    charmanderEnemigo.pintarKokemon()
+    bulbasaurEnemigo.pintarKokemon()
+    squirtleEnemigo.pintarKokemon()
+
+    if (mascotaJugadorObjeto.velocidadX !== 0 || mascotaJugadorObjeto.velocidadY !== 0){
+        revisarColision(charmanderEnemigo)
+        revisarColision(bulbasaurEnemigo)
+        revisarColision(squirtleEnemigo)
+    } 
 }
 
 function moverDerecha(){
@@ -434,6 +454,30 @@ function extraerObjetosKokemon(){
         };
         
     }
+}
+
+function revisarColision(enemigo){
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaMascota = mascotaJugadorObjeto.y
+    const abajoMascota = mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const derechaMascota = mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+    const izquierdaMascota = mascotaJugadorObjeto.x
+
+    if (abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+            return
+    }
+
+    detenerMovimiento()
+    alert("Enfrentate al " + enemigo.nombre + " enemigo")
+
 }
 
 window.addEventListener('load', iniciarJuego)
