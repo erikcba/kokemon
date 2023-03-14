@@ -59,10 +59,10 @@ class Kokemon {
         this.imagen = imagen;
         this.vidas = vidas;
         this.ataques = [];
-        this.x = x
-        this.y = y
         this.ancho = 80
         this.alto = 80
+        this.x = x 
+        this.y = y
         this.mapaImg = new Image()
         this.mapaImg.src = imagen
         this.velocidadX = 0
@@ -88,11 +88,19 @@ let squirtle = new Kokemon('Squirtle', './imagenes/squirtle.png', 3);
 
 // kokemones enemigos
 
-let charmanderEnemigo = new Kokemon('Charmander', './imagenes/charmander-removebg-preview.png', 3 , aleatorio(0,800), aleatorio(0,550));
-let bulbasaurEnemigo = new Kokemon('Bulbasaur', "./imagenes/png-clipart-bulbasaur-bulbasaur-pokemon.png", 3,aleatorio(0,800), aleatorio(0,550));
-let squirtleEnemigo = new Kokemon('Squirtle', './imagenes/squirtle.png', 3,aleatorio(0,800), aleatorio(0,550));
+let charmanderEnemigo = new Kokemon('Charmander', './imagenes/charmander-removebg-preview.png', 3 , aleatorio(0,700), aleatorio(0,450));
+let bulbasaurEnemigo = new Kokemon('Bulbasaur', "./imagenes/png-clipart-bulbasaur-bulbasaur-pokemon.png", 3,aleatorio(0,700), aleatorio(0,450));
+let squirtleEnemigo = new Kokemon('Squirtle', './imagenes/squirtle.png', 3,aleatorio(0,700), aleatorio(0,450));
 
 charmander.ataques.push(
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🌱', id: 'boton-planta'}
+)
+
+charmanderEnemigo.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
@@ -108,7 +116,24 @@ bulbasaur.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'}
 )
 
+bulbasaurEnemigo.ataques.push(
+    {nombre: '🌱', id: 'boton-planta'},
+    {nombre: '🌱', id: 'boton-planta'},
+    {nombre: '🌱', id: 'boton-planta'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'}
+)
+
+
 squirtle.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🌱', id: 'boton-planta'},
+    {nombre: '🔥', id: 'boton-fuego'}
+)
+
+squirtleEnemigo.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '💧', id: 'boton-agua'},
@@ -144,6 +169,20 @@ function iniciarJuego() {
 
     sectionVerMapa.style.display = 'none'
 
+    unirseAlJuego()
+
+}
+
+function unirseAlJuego() {
+    fetch("http://localhost:8080/unirse")
+        .then(function(res){
+            if (res.ok){
+                res.text()
+                    .then(function(respuesta){
+                        console.log(respuesta)
+                    })
+            }
+        })
 }
 
 
@@ -151,7 +190,7 @@ function seleccionarMascotaJugador(){
 
     sectionSeleccionarMascota.style.display = 'none'
 
-    // sectionSeleccionarAtaque.style.display = 'flex'
+    // 
     sectionVerMapa.style.display = 'flex'
     
    
@@ -175,7 +214,7 @@ function seleccionarMascotaJugador(){
     }
 
     extraerAtaques(mascotaJugador)
-    seleccionarMascotaEnemigo()
+    
     iniciarMapa()
 
     pintarCanvas()
@@ -235,13 +274,21 @@ function secuenciaAtaques(){
 
 botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
-function seleccionarMascotaEnemigo() {
+function seleccionarMascotaEnemigo(enemigo) {
+
+    // Seleccion de enemigo aleatorio
     
-    let enemigoAleatorio = aleatorio (0, kokemones.length - 1)
+    // let enemigoAleatorio = aleatorio (0, kokemones.length - 1)
 
-    spanKokemonEnemigo.innerHTML = kokemones[enemigoAleatorio].nombre
+    // spanKokemonEnemigo.innerHTML = kokemones[enemigoAleatorio].nombre
 
-    ataquesEnemigo = kokemones[enemigoAleatorio].ataques
+    // ataquesEnemigo = kokemones[enemigoAleatorio].ataques
+
+    // Seleccion de enemigo cruzado en el mapa
+
+    spanKokemonEnemigo.innerHTML = enemigo.nombre
+
+    ataquesEnemigo = enemigo.ataques
 
     console.log(ataquesEnemigo)
     
@@ -476,7 +523,16 @@ function revisarColision(enemigo){
     }
 
     detenerMovimiento()
-    alert("Enfrentate al " + enemigo.nombre + " enemigo")
+    
+    clearInterval(intervalo)
+
+    sectionSeleccionarAtaque.style.display = 'flex'
+
+    sectionVerMapa.style.display = 'none'
+
+    seleccionarMascotaEnemigo(enemigo)
+
+    // alert("Enfrentate al " + enemigo.nombre + " enemigo")
 
 }
 
